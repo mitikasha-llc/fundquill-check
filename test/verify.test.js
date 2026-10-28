@@ -140,3 +140,19 @@ test('CLI output strips terminal control characters from document text', () => {
     unlinkSync(tmp);
   }
 });
+
+test('a model hash added to a library (where `file` is not chained) is never matched', async () => {
+  const model = new Uint8Array(readFileSync(fx('model.xlsx')));
+  const lib = read('assumption-library-v2-signed.json');
+  lib.file = { name: 'model.xlsx', sha256: read('report-v2-signed.json').file.sha256, bytes: model.length };
+  const r = await verify(lib, { model });
+  assert.equal(r.hashOk && r.signatureOk, true); // the library itself is still intact + signed
+  assert.equal(r.ok, false);
+  assert.ok(!r.checks.some((c) => c.status === 'pass' && /model/i.test(c.title)));
+});
+
+test('the model is not reported as matching when the contents were altered', async () => {
+  const model = new Uint8Array(readFileSync(fx('model.xlsx')));
+  const r = await verify(read('report-v2-edited.json'), { model });
+  assert.ok(!r.checks.some((c) => c.status === 'pass' && /model/i.test(c.title)));
+});

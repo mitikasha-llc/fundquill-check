@@ -208,11 +208,16 @@ export async function verify(doc, opts = {}) {
   // 4. Your copy of the model.
   let modelOk = true;
   if (opts.model) {
-    // A model check you asked for must never pass vacuously: no valid recorded
-    // hash (a library, a trail without a file, a malformed field) is a failure.
-    if (!/^[0-9a-f]{64}$/.test(String(doc.file?.sha256 ?? ''))) {
+    // A model check you asked for must never pass vacuously or on an unsigned
+    // claim: the recorded hash must be a valid one, inside a CHAINED `file`
+    // section (a library has none, so a `file` added to one is just text), and
+    // the chain must hold.
+    if (!names.includes('file') || !/^[0-9a-f]{64}$/.test(String(doc.file?.sha256 ?? ''))) {
       modelOk = false;
-      add('fail', 'Model file', `this ${LABEL[kind]} records no valid model SHA-256 to compare with`);
+      add('fail', 'Model file', `this ${LABEL[kind]} records no signed model SHA-256 to compare with`);
+    } else if (!hashOk) {
+      modelOk = false;
+      add('fail', 'Model file', 'not compared: the contents do not match the hash chain');
     } else {
       const sha = await sha256Bytes(opts.model);
       modelOk = sha === doc.file.sha256;

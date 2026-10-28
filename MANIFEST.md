@@ -6,7 +6,7 @@ published. All artifacts are built from a single tagged commit.
 
 | Artifact | SHA-256 |
 |---|---|
-| `dist/check.html`, v0.1.0 (offline single file) | `sha256:6ea63a8e925263bcac17e9d97f73416160fc96d48cebbf6425a3beee1b4ff825` |
+| `dist/check.html`, v0.1.0 (offline single file) | `sha256:fcef1600e27889d9b8f89df26298f7a72e82d56f407c854bc23baaba31f08255` |
 | npm `fundquill-check@0.1.0` | via the registry: `npm view fundquill-check@0.1.0 dist.integrity` |
 
 > Reproduce the offline artifact's hash from a clean checkout:
