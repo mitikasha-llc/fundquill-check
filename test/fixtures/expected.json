@@ -1,0 +1,109 @@
+[
+  {
+    "file": "report-v2-signed.json",
+    "kind": "report",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "model": {
+      "file": "model.xlsx",
+      "matches": true
+    },
+    "note": "Pro report; 160 of 2000 Monte Carlo trials errored."
+  },
+  {
+    "file": "report-v2-free.json",
+    "kind": "report",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": false,
+    "signatureOk": false,
+    "note": "Free tier: watermarked and unsigned."
+  },
+  {
+    "file": "report-v2-edited.json",
+    "kind": "report",
+    "spec_version": 2,
+    "hashOk": false,
+    "signed": true,
+    "signatureOk": false,
+    "note": "engine_version edited in place: the chain no longer recomputes."
+  },
+  {
+    "file": "report-v2-forged.json",
+    "kind": "report",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": false,
+    "note": "errored trials hidden and the whole chain recomputed: self-consistent, but the signature is not over it."
+  },
+  {
+    "file": "report-v2-spoofed-fp.json",
+    "kind": "report",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": false,
+    "note": "validly signed by ANOTHER key that claims the original device_fp."
+  },
+  {
+    "file": "report-v2-watermark-injected.json",
+    "kind": "report",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "note": "unchained free text added to a signed report: still verifies, and a verifier must not display it."
+  },
+  {
+    "file": "audit-trail-v2-signed.json",
+    "kind": "audit-trail",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "model": {
+      "file": "model.xlsx",
+      "matches": true
+    },
+    "note": "Firm audit trail."
+  },
+  {
+    "file": "assumption-library-v2-signed.json",
+    "kind": "assumption-library",
+    "spec_version": 2,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "note": "Firm assumption library."
+  },
+  {
+    "file": "report-v1.json",
+    "kind": "report",
+    "spec_version": 1,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "note": "issued by the pre-v2 code (prod 6f6515b); engine_version and generated_at are NOT covered."
+  },
+  {
+    "file": "audit-trail-v1.json",
+    "kind": "audit-trail",
+    "spec_version": 1,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "note": "issued by the pre-v2 code (prod 6f6515b); engine_version and generated_at are NOT covered."
+  },
+  {
+    "file": "assumption-library-v1.json",
+    "kind": "assumption-library",
+    "spec_version": 1,
+    "hashOk": true,
+    "signed": true,
+    "signatureOk": true,
+    "note": "issued by the pre-v2 code (prod 6f6515b); engine_version and generated_at are NOT covered."
+  }
+]

@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      # No runtime dependencies: nothing to install.
+      - name: Tests (shared FundQuill fixtures + CLI exit codes)
+        run: node --test
+      - name: CLI smoke, the signed fixture verifies against its model
+        run: node bin/fundquill-check.js test/fixtures/report-v2-signed.json test/fixtures/model.xlsx
+      - name: Build the offline single file
+        run: node scripts/build-html.mjs

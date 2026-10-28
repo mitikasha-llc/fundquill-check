@@ -1,0 +1,41 @@
+{
+  "tool": "FundQuill",
+  "kind": "assumption-library",
+  "spec_version": 1,
+  "engine_version": "0.1.0",
+  "name": "Base case",
+  "notes": "FY27 plan",
+  "generated_at": "2026-10-20T12:00:00.000Z",
+  "entries": [
+    {
+      "cell": "Inputs!B3",
+      "baseline": "0.05",
+      "label": "Growth",
+      "distribution": "normal(0.05, 0.01)"
+    }
+  ],
+  "hash_chain": {
+    "algo": "SHA-256",
+    "sections": [
+      {
+        "name": "name",
+        "hash": "71fdfa9d2076125e6d1ee77c17f5e3de094b36c88e540d7b6f7fab2764862a6a"
+      },
+      {
+        "name": "notes",
+        "hash": "43f183ad9afe29297560de35ce7108c4bb51652a6a8f6d7321a8b30500ea1ab2"
+      },
+      {
+        "name": "entries",
+        "hash": "326493e5988ad0fbb9613b8746fb1ad2fa8c1b04de090ac78ac10b5c144a1c7a"
+      }
+    ],
+    "root": "326493e5988ad0fbb9613b8746fb1ad2fa8c1b04de090ac78ac10b5c144a1c7a"
+  },
+  "signature": {
+    "alg": "ECDSA-P256/SHA-256",
+    "device_fp": "99f87d0508d3a988d0bbfdafea05c4e1c1965ea98c7c693110fec2f013e80ca0",
+    "device_pubkey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdFPbSrfRSNC8gPNHJ4ql_fkHN0qiW9hNrDSRiMeWqEBUAEeFqgo8AfseQWtjXrnvRpqhPEmIGdiCSrdq__Ts4g",
+    "signature": "HsNeRwanCXjUJPvrOUrZj1B58-OQPs6AJnE7b9IA5LLfNAgQBOt5QrceYdfEN5IBzFRdHR2_8-l6tYHzSM5BKg"
+  }
+}

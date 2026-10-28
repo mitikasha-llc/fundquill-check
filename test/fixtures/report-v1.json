@@ -1,0 +1,83 @@
+{
+  "tool": "FundQuill",
+  "spec_version": 1,
+  "engine_version": "0.1.0",
+  "generated_at": "2026-10-20T12:00:00.000Z",
+  "file": {
+    "name": "three-statement.xlsx",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bytes": 48213
+  },
+  "findings": [
+    {
+      "sheet": "P&L",
+      "a1": "D14",
+      "category": "self-ref-sum",
+      "detail": "SUM includes its own cell in =SUM(D2:D14)"
+    }
+  ],
+  "warnings": [
+    {
+      "sheet": "BS",
+      "a1": "C9",
+      "category": "hardcoded",
+      "detail": "Hard-coded number in a formula row"
+    }
+  ],
+  "assumptions": [
+    {
+      "cell": "Inputs!B3",
+      "baseline": "0.05",
+      "distribution": "normal(0.05, 0.01)"
+    }
+  ],
+  "montecarlo": {
+    "seed": 42,
+    "trials": 1000,
+    "outputs": [
+      {
+        "cell": "P&L!D20",
+        "mean": 120.5,
+        "std": 10.25,
+        "p5": 104,
+        "p50": 120,
+        "p95": 137.5,
+        "min": 88,
+        "max": 160
+      }
+    ]
+  },
+  "hash_chain": {
+    "algo": "SHA-256",
+    "sections": [
+      {
+        "name": "file",
+        "hash": "7d63b5cb73f9c4732cc95d64cd6b1498c8a37362c64af2ad267d71c4ec794ce6"
+      },
+      {
+        "name": "findings",
+        "hash": "4c79fcbcf945e78f463ddce6b2280704d52ba2edfd9a703d1f6e412b19898a3d"
+      },
+      {
+        "name": "warnings",
+        "hash": "2e9e65179fe424c5143937c5d9948238c20e871f57df3e8182b80c31e662d265"
+      },
+      {
+        "name": "assumptions",
+        "hash": "f92cd1792c15513f0368e79daf525fe45ccd13b3477efdae965f7dd38988498c"
+      },
+      {
+        "name": "montecarlo",
+        "hash": "7128446a90862750b77f3d0253677937c4a135ba7e59f50474fe339b28f6f865"
+      }
+    ],
+    "root": "7128446a90862750b77f3d0253677937c4a135ba7e59f50474fe339b28f6f865"
+  },
+  "reproduce": "Re-run FundQuill engine v0.1.0 on the file with SHA-256 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, Monte Carlo seed 42 × 1000 trials, to reproduce these results. Root hash: 7128446a90862750b77f3d0253677937c4a135ba7e59f50474fe339b28f6f865.",
+  "signature": {
+    "alg": "ECDSA-P256/SHA-256",
+    "device_fp": "99f87d0508d3a988d0bbfdafea05c4e1c1965ea98c7c693110fec2f013e80ca0",
+    "device_pubkey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdFPbSrfRSNC8gPNHJ4ql_fkHN0qiW9hNrDSRiMeWqEBUAEeFqgo8AfseQWtjXrnvRpqhPEmIGdiCSrdq__Ts4g",
+    "signature": "ibMyehE7CpsgKV2v8S2GyFvh80gY9JWtjf_00gqCES0MdRwriX-j-VBl1NXS8Q7mNW_2Q132EZQW9x0w2AH2YQ"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "tool": "FundQuill",
+  "kind": "report",
+  "spec_version": 2,
+  "build": {
+    "tool": "FundQuill",
+    "kind": "report",
+    "spec_version": 2,
+    "engine_version": "0.2.0",
+    "engine_wasm_sha256": "6c6449d72599e8a228138ae322218e98f287a6fba9cfd85b555c9a845135610e",
+    "generated_at": "2026-10-28T18:45:00.000Z"
+  },
+  "file": {
+    "name": "model.xlsx",
+    "sha256": "156be862696b38f55cf9637499cbe46dc63d89f5794f957d5cca6f06abfd5984",
+    "bytes": 1689
+  },
+  "findings": [
+    {
+      "sheet": "Sheet1",
+      "a1": "B1",
+      "category": "self-ref-sum",
+      "detail": "example"
+    }
+  ],
+  "warnings": [],
+  "assumptions": [
+    {
+      "cell": "Sheet1!A2",
+      "baseline": "100",
+      "distribution": "normal(100, 10)"
+    }
+  ],
+  "montecarlo": {
+    "seed": 7,
+    "trials": 2000,
+    "outputs": [
+      {
+        "cell": "Sheet1!B1",
+        "n": 1840,
+        "errors": 160,
+        "mean": 600.2,
+        "std": 9.9,
+        "min": 561.3,
+        "max": 638.8,
+        "p5": 583.9,
+        "p10": 587.4,
+        "p25": 593.5,
+        "p50": 600.1,
+        "p75": 606.9,
+        "p90": 612.9,
+        "p95": 616.5
+      }
+    ]
+  },
+  "hash_chain": {
+    "algo": "SHA-256",
+    "sections": [
+      {
+        "name": "build",
+        "hash": "24d2c8ac9f7fb49be6d7fb9429320ddec695c4ddcd7fa08f44f449b9b66d4342"
+      },
+      {
+        "name": "file",
+        "hash": "55fe75ceeee6cbe87cdcdbdc979df94c6145151275a63f4e4ac17226b8d0e938"
+      },
+      {
+        "name": "findings",
+        "hash": "45f30fb4b92bc793d1e754b1e87cf1336b3a2ec31088a4baa92c77d816807f99"
+      },
+      {
+        "name": "warnings",
+        "hash": "4cda999dca3818e13c061c8e907a0e97b62ed19a08363c8e865986f19d979c33"
+      },
+      {
+        "name": "assumptions",
+        "hash": "fb117cbdc8c2edf3e70bb6ead2065fb3e30f7084b7b02350e7be364a8fca4e45"
+      },
+      {
+        "name": "montecarlo",
+        "hash": "2061807f82b73f612ddf1c6af80f2862cc9516e251ba1e6ebca95af82b5ad89d"
+      }
+    ],
+    "root": "2061807f82b73f612ddf1c6af80f2862cc9516e251ba1e6ebca95af82b5ad89d"
+  },
+  "reproduce": "Re-run FundQuill engine v0.2.0 (wasm SHA-256 6c6449d72599e8a228138ae322218e98f287a6fba9cfd85b555c9a845135610e) on the file with SHA-256 156be862696b38f55cf9637499cbe46dc63d89f5794f957d5cca6f06abfd5984, Monte Carlo seed 7 × 2000 trials, to reproduce these results. Root hash: 2061807f82b73f612ddf1c6af80f2862cc9516e251ba1e6ebca95af82b5ad89d.",
+  "watermark": "SAMPLE: generated with FundQuill Free. Unsigned; not for use as evidence. Upgrade to Pro to sign."
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Verify a FundQuill document</title>
+    <style>
+      :root { color-scheme: light dark; --fg: #16181d; --muted: #5b616e; --bg: #fff; --card: #f6f7f9; --line: #e3e6ea; --ok: #1e7d4f; --bad: #c0392b; --warn: #b06f00; }
+      @media (prefers-color-scheme: dark) { :root { --fg: #e6e8ec; --muted: #9aa1ad; --bg: #0f1115; --card: #171a20; --line: #2a2f38; --ok: #46c88a; --bad: #ff6b6b; --warn: #e0a33a; } }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+      main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+      h1 { font-size: 1.5rem; margin: 0 0 .35rem; }
+      .lede { color: var(--muted); margin: 0 0 1.75rem; }
+      .field { display: block; margin: 0 0 1rem; }
+      .field span { display: block; font-weight: 600; font-size: .9rem; margin-bottom: .3rem; }
+      input[type=file], input[type=text] { width: 100%; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font: inherit; }
+      .check { font-size: .9rem; color: var(--muted); }
+      button { margin-top: .5rem; padding: .6rem 1.2rem; border: 0; border-radius: 8px; background: #2f6df6; color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+      #summary { margin: 1.5rem 0 .5rem; font-weight: 700; }
+      #summary.ok { color: var(--ok); } #summary.bad { color: var(--bad); }
+      ul { list-style: none; padding: 0; margin: 0; }
+      li { border: 1px solid var(--line); border-left-width: 4px; border-radius: 8px; padding: .6rem .8rem; margin: .5rem 0; background: var(--card); }
+      li.pass { border-left-color: var(--ok); } li.fail { border-left-color: var(--bad); }
+      li.warn { border-left-color: var(--warn); } li.skip, li.info { border-left-color: var(--line); }
+      li .t { font-weight: 600; } li .d { color: var(--muted); font-size: .9rem; margin-top: .15rem; word-break: break-word; }
+      .note { color: var(--muted); font-size: .85rem; margin-top: 2rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Verify a FundQuill document</h1>
+      <p class="lede">
+        Checks a FundQuill report, audit trail or assumption library: that it is unaltered, which
+        device key signed it, and optionally that it describes your copy of the model. Everything
+        runs in this page. Nothing is uploaded and no FundQuill engine runs; only SHA-256 and
+        ECDSA P-256 are used.
+      </p>
+
+      <label class="field"><span>document (.json)</span><input id="doc" type="file" accept=".json,application/json" /></label>
+      <label class="field"><span>your copy of the model (optional)</span><input id="model" type="file" accept=".xlsx,.xlsm,.xls" /></label>
+      <label class="field"><span>expected signing-device fingerprint (optional, from the sender)</span><input id="fp" type="text" placeholder="64 hex characters" /></label>
+      <label class="check"><input id="unsigned" type="checkbox" /> accept an intact but unsigned document</label><br />
+      <button id="run" type="button">Verify</button>
+
+      <p id="summary" hidden></p>
+      <ul id="results"></ul>
+
+      <p class="note">
+        A signature names a device key, not a person: compare the fingerprint with the one the
+        sender gives you through a channel you already trust. This check does not re-run the
+        engine; the numbers are as produced, and the document records which engine build produced
+        them. Source: github.com/mitikasha-llc/fundquill-check (MIT).
+      </p>
+    </main>
+
+    <script type="module">
+      import { verify } from '../src/index.js';
+
+      const $ = (id) => document.getElementById(id);
+
+      $('run').addEventListener('click', async () => {
+        const df = $('doc').files[0], mf = $('model').files[0];
+        const summary = $('summary'), results = $('results');
+        results.textContent = ''; summary.hidden = false; summary.className = ''; summary.textContent = 'Checking…';
+        if (!df) { summary.textContent = 'Choose a document first.'; return; }
+        let doc;
+        try { doc = JSON.parse(await df.text()); }
+        catch (e) { summary.className = 'bad'; summary.textContent = 'Not valid JSON: ' + e.message; return; }
+        const opts = {
+          model: mf ? new Uint8Array(await mf.arrayBuffer()) : undefined,
+          expectFingerprint: $('fp').value.trim() || undefined,
+          allowUnsigned: $('unsigned').checked,
+        };
+        let r;
+        try { r = await verify(doc, opts); }
+        catch (e) { summary.className = 'bad'; summary.textContent = 'Not checked: ' + e.message; return; }
+        for (const c of r.checks) {
+          const li = document.createElement('li');
+          li.className = c.status;
+          const t = document.createElement('div'); t.className = 't';
+          t.textContent = ({ pass: '✓ ', fail: '✗ ', warn: '! ', skip: '- ', info: '· ' }[c.status] || '') + c.title;
+          const d = document.createElement('div'); d.className = 'd'; d.textContent = c.detail || '';
+          li.append(t, d);
+          results.appendChild(li);
+        }
+        summary.className = r.ok ? 'ok' : 'bad';
+        summary.textContent = r.ok ? 'VERIFIED.' : 'NOT VERIFIED. See the ✗ lines below.';
+      });
+    </script>
+  </body>
+</html>

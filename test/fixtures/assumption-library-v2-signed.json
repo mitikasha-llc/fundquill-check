@@ -1,0 +1,49 @@
+{
+  "tool": "FundQuill",
+  "kind": "assumption-library",
+  "spec_version": 2,
+  "build": {
+    "tool": "FundQuill",
+    "kind": "assumption-library",
+    "spec_version": 2,
+    "engine_version": "0.2.0",
+    "engine_wasm_sha256": "6c6449d72599e8a228138ae322218e98f287a6fba9cfd85b555c9a845135610e",
+    "generated_at": "2026-10-28T18:45:00.000Z"
+  },
+  "name": "Base case",
+  "notes": "",
+  "entries": [
+    {
+      "cell": "Sheet1!A2",
+      "baseline": "100"
+    }
+  ],
+  "hash_chain": {
+    "algo": "SHA-256",
+    "sections": [
+      {
+        "name": "build",
+        "hash": "23c70c9c8b9476287ad549c0fb5ff679e3d600a09fa6ed584753d3bfcd48cfda"
+      },
+      {
+        "name": "name",
+        "hash": "7ef22c23bbc7e2e3f28459844d9e255e74f21bd6093072502638434cd0401371"
+      },
+      {
+        "name": "notes",
+        "hash": "1f2d28ab73ad019823456f5723806da809726de2d0d0281675abbfed62b4d166"
+      },
+      {
+        "name": "entries",
+        "hash": "6c97fe6e68e8854a19783e023c16408fa25e18b4cd7546e2ff86e37a2c84a9bb"
+      }
+    ],
+    "root": "6c97fe6e68e8854a19783e023c16408fa25e18b4cd7546e2ff86e37a2c84a9bb"
+  },
+  "signature": {
+    "alg": "ECDSA-P256/SHA-256",
+    "device_fp": "797f27b5bdba862efa20a5bdb4b218d4971a2c7aed5115c75651a8cc20686f44",
+    "device_pubkey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEKkSgBlbWcjK716nujQUtg9CaMKGnU-FQkAEzgL02_WzC77y3EJ_XgJuryyJTG7U2YjWQubotO4zjA-aQU_g6Og",
+    "signature": "6334z1paqMJRqP14Bg8MaNIu8DhLeSlQl9Qg37G1jIzIwUlDrQQme0c22sDFKowus0e3rFvlCAd0UysXWIV3Qw"
+  }
+}

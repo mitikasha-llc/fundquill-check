@@ -1,0 +1,62 @@
+{
+  "tool": "FundQuill",
+  "kind": "audit-trail",
+  "spec_version": 1,
+  "engine_version": "0.1.0",
+  "generated_at": "2026-10-20T12:00:00.000Z",
+  "file": {
+    "name": "three-statement.xlsx",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bytes": 48213
+  },
+  "fixes": [
+    {
+      "sheet": "P&L",
+      "a1": "D14",
+      "category": "self-ref-sum",
+      "confidence": "high",
+      "message": "SUM includes its own cell",
+      "before": "=SUM(D2:D14)",
+      "after": "=SUM(D2:D13)",
+      "at": "2026-10-20T11:59:00.000Z"
+    }
+  ],
+  "findings": [],
+  "warnings": [
+    {
+      "sheet": "BS",
+      "a1": "C9",
+      "category": "hardcoded",
+      "detail": "Hard-coded number in a formula row"
+    }
+  ],
+  "hash_chain": {
+    "algo": "SHA-256",
+    "sections": [
+      {
+        "name": "file",
+        "hash": "7d63b5cb73f9c4732cc95d64cd6b1498c8a37362c64af2ad267d71c4ec794ce6"
+      },
+      {
+        "name": "fixes",
+        "hash": "67b3c82395fc5a656a2e6a919a24b31f76e561c840b5ad61d08c0d22d5b47eca"
+      },
+      {
+        "name": "findings",
+        "hash": "14f9656cd5fd4c1a7fd76f4fc1dc7b5fdf32c6df4ffcb88eb3fd65ccdff6f3a2"
+      },
+      {
+        "name": "warnings",
+        "hash": "fa51db58444eada13e71205bc20d1d16b95b84e171e8f27c8fca81883247355b"
+      }
+    ],
+    "root": "fa51db58444eada13e71205bc20d1d16b95b84e171e8f27c8fca81883247355b"
+  },
+  "reproduce": "Re-run FundQuill engine v0.1.0 on the file with SHA-256 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa and apply the listed fixes in order to reproduce this trail. Root hash: fa51db58444eada13e71205bc20d1d16b95b84e171e8f27c8fca81883247355b.",
+  "signature": {
+    "alg": "ECDSA-P256/SHA-256",
+    "device_fp": "99f87d0508d3a988d0bbfdafea05c4e1c1965ea98c7c693110fec2f013e80ca0",
+    "device_pubkey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdFPbSrfRSNC8gPNHJ4ql_fkHN0qiW9hNrDSRiMeWqEBUAEeFqgo8AfseQWtjXrnvRpqhPEmIGdiCSrdq__Ts4g",
+    "signature": "HJMasgXZUqPcfFMB1_0aqoIOKimz2odzE2KCpKBq0AfZFcTVVNtJe5TA52xEVWWzPWNJy3CE8t_3Fth8WInN_A"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "fundquill-check",
+  "version": "0.1.0",
+  "description": "Engine-free, offline verifier for FundQuill signed reports, audit trails and assumption libraries. Checks integrity, the signing device and your copy of the model with public algorithms only. No FundQuill engine, no upload.",
+  "type": "module",
+  "bin": {
+    "fundquill-check": "bin/fundquill-check.js"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "web",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "build:html": "node scripts/build-html.mjs"
+  },
+  "keywords": [
+    "fundquill",
+    "excel",
+    "financial-model",
+    "audit",
+    "audit-trail",
+    "verifier",
+    "evidence",
+    "sha256",
+    "ecdsa",
+    "tamper-evident"
+  ],
+  "author": "Mitikasha LLC",
+  "license": "MIT",
+  "homepage": "https://github.com/mitikasha-llc/fundquill-check#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitikasha-llc/fundquill-check.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mitikasha-llc/fundquill-check/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,49 @@
+name: Release
+
+# Publishes to npm and attaches the offline artifact on any `v*` tag.
+# Publishes with npm trusted publishing (GitHub OIDC): no token is stored, and npm adds
+# provenance automatically. The trusted publisher is configured on npmjs.com for
+# mitikasha-llc/fundquill-check, workflow release.yml, environment mitikasha-fundquill, with
+# the "stage publish" permission only: this job STAGES the version, and a maintainer releases it
+# with `npm stage approve <stage-id>` (2FA). Staging needs npm >= 11.15.0.
+# See RELEASE.md: publish under the org / company identity, never a personal account.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # npm trusted publishing (OIDC) and provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Must match the environment in the npm trusted publisher config exactly (case-sensitive).
+    environment: mitikasha-fundquill
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Test (no deps)
+        run: node --test
+      - name: Build offline single-file
+        run: node scripts/build-html.mjs
+      - name: Use the latest npm (staged publishing needs npm >= 11.15.0)
+        run: npm install -g npm@latest && npm --version
+      - name: Stage on npm (OIDC, no token; a maintainer approves it with 2FA)
+        run: npm stage publish --access public --provenance
+      - name: Hash the offline artifact
+        id: hash
+        run: echo "sha256=$(shasum -a 256 dist/check.html | awk '{print $1}')" >> "$GITHUB_OUTPUT"
+      - name: GitHub Release
+        env:
+          # Untrusted-input-safe: tag/hash flow through env, not string-interpolated into the shell.
+          TAG: ${{ github.ref_name }}
+          SHA: ${{ steps.hash.outputs.sha256 }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$TAG" dist/check.html \
+            --title "fundquill-check $TAG" \
+            --notes "Engine-free verifier for FundQuill signed documents. Offline dist/check.html sha256: $SHA"

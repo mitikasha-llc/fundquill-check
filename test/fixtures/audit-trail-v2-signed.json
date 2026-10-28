@@ -1,0 +1,65 @@
+{
+  "tool": "FundQuill",
+  "kind": "audit-trail",
+  "spec_version": 2,
+  "build": {
+    "tool": "FundQuill",
+    "kind": "audit-trail",
+    "spec_version": 2,
+    "engine_version": "0.2.0",
+    "engine_wasm_sha256": "6c6449d72599e8a228138ae322218e98f287a6fba9cfd85b555c9a845135610e",
+    "generated_at": "2026-10-28T18:45:00.000Z"
+  },
+  "file": {
+    "name": "model.xlsx",
+    "sha256": "156be862696b38f55cf9637499cbe46dc63d89f5794f957d5cca6f06abfd5984",
+    "bytes": 1689
+  },
+  "fixes": [
+    {
+      "sheet": "Sheet1",
+      "a1": "B1",
+      "category": "self-ref-sum",
+      "confidence": "high",
+      "message": "example",
+      "before": "=SUM(A1:A4)",
+      "after": "=SUM(A2:A4)",
+      "at": "2026-10-28T18:45:00.000Z"
+    }
+  ],
+  "findings": [],
+  "warnings": [],
+  "hash_chain": {
+    "algo": "SHA-256",
+    "sections": [
+      {
+        "name": "build",
+        "hash": "d8f1878f812b649dd86534ce28ba682903963dca4afe73b9721821feb0f3fd66"
+      },
+      {
+        "name": "file",
+        "hash": "4ff8d473c253ef0689008ec1bd4978a58736deb738b41c185e4701d6ed5e146f"
+      },
+      {
+        "name": "fixes",
+        "hash": "6b5c963a6ec27debff9738482eef28fffe795642c13fb91d8f5d706ade4bc333"
+      },
+      {
+        "name": "findings",
+        "hash": "dc92351831feae52635e411e58a9164406b7c59169473656c78cd40008c96ae3"
+      },
+      {
+        "name": "warnings",
+        "hash": "5cc58429ae419e106b48086e00fa7875c0bea2e905ed3f50b9152124a02c25a7"
+      }
+    ],
+    "root": "5cc58429ae419e106b48086e00fa7875c0bea2e905ed3f50b9152124a02c25a7"
+  },
+  "reproduce": "Re-run FundQuill engine v0.2.0 (wasm SHA-256 6c6449d72599e8a228138ae322218e98f287a6fba9cfd85b555c9a845135610e) on the file with SHA-256 156be862696b38f55cf9637499cbe46dc63d89f5794f957d5cca6f06abfd5984 and apply the listed fixes in order to reproduce this trail. Root hash: 5cc58429ae419e106b48086e00fa7875c0bea2e905ed3f50b9152124a02c25a7.",
+  "signature": {
+    "alg": "ECDSA-P256/SHA-256",
+    "device_fp": "797f27b5bdba862efa20a5bdb4b218d4971a2c7aed5115c75651a8cc20686f44",
+    "device_pubkey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEKkSgBlbWcjK716nujQUtg9CaMKGnU-FQkAEzgL02_WzC77y3EJ_XgJuryyJTG7U2YjWQubotO4zjA-aQU_g6Og",
+    "signature": "0TT-bIv0_CeeR71nzn1w_AteK3eoWeTCmy2DVlxK7OKDL2ZjyxW9QQn6ZYSN6_NeY2RB8bM4Nyh3UcKW5WOO1Q"
+  }
+}
