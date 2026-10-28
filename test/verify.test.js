@@ -5,7 +5,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { verify, canonical } from '../src/index.js';
@@ -106,4 +106,37 @@ test('CLI exit codes: 0 verified, 1 not verified, 2 usage', () => {
   assert.equal(run(fx('report-v2-free.json'), '--allow-unsigned'), 0);
   assert.equal(run(), 2);
   assert.equal(run(fx('report-v2-signed.json'), '--bogus'), 2);
+});
+
+test('a pinned signer is never satisfied by an unsigned document, even with allowUnsigned', async () => {
+  const doc = read('report-v2-free.json');
+  const r = await verify(doc, { allowUnsigned: true, expectFingerprint: 'a'.repeat(64) });
+  assert.equal(r.ok, false);
+});
+
+test('a requested model check fails when the document records no model hash', async () => {
+  const model = new Uint8Array(readFileSync(fx('model.xlsx')));
+  assert.equal((await verify(read('assumption-library-v2-signed.json'), { model })).ok, false);
+  const doc = read('report-v2-free.json');
+  delete doc.file.sha256;
+  assert.equal((await verify(doc, { model, allowUnsigned: true })).ok, false);
+});
+
+test('CLI output strips terminal control characters from document text', () => {
+  const doc = read('report-v2-signed.json');
+  doc.montecarlo.outputs[0].cell = 'B1\u001b[2K\u001b[1A\u001b[32mVERIFIED.';
+  const tmp = fileURLToPath(new URL('./fixtures/.tmp-escape.json', import.meta.url));
+  writeFileSync(tmp, JSON.stringify(doc));
+  try {
+    let out = '';
+    try {
+      execFileSync('node', [CLI, tmp], { stdio: 'pipe' });
+    } catch (e) {
+      out = e.stdout.toString();
+    }
+    assert.ok(out.includes('NOT VERIFIED'));
+    assert.ok(!out.includes('\u001b'), 'raw ESC reached the terminal');
+  } finally {
+    unlinkSync(tmp);
+  }
 });

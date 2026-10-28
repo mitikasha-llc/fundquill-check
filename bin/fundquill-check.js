@@ -42,6 +42,11 @@ function parseArgs(argv) {
 const C = { reset: '\x1b[0m', red: '\x1b[31m', green: '\x1b[32m', yellow: '\x1b[33m', dim: '\x1b[2m', bold: '\x1b[1m' };
 const color = process.stdout.isTTY;
 const paint = (s, c) => (color ? c + s + C.reset : s);
+// Everything printed below can carry document-controlled text (cell names, the
+// claimed fingerprint, version strings). Strip C0/C1 control characters, ESC
+// included, so a crafted document cannot rewrite the terminal (e.g. fake a
+// "VERIFIED." line). --json output is escaped by JSON.stringify.
+const safe = (s) => String(s).replace(/[\u0000-\u001f\u007f-\u009f]/g, '\uFFFD');
 const MARK = { pass: ['✓', C.green], fail: ['✗', C.red], warn: ['!', C.yellow], skip: ['-', C.dim], info: ['·', C.dim] };
 
 async function main() {
@@ -77,7 +82,7 @@ async function main() {
   try {
     result = await verify(doc, opts);
   } catch (e) {
-    console.error(`error: ${e.message}`);
+    console.error(`error: ${safe(e.message)}`);
     return 2;
   }
 
@@ -89,8 +94,9 @@ async function main() {
     console.log(paint(`document: ${docPath}${modelPath ? `   model: ${modelPath}` : ''}\n`, C.dim));
     for (const c of result.checks) {
       const [m, col] = MARK[c.status] ?? ['?', ''];
-      console.log(`  ${paint(m, col)} ${paint(c.title, C.bold)}`);
-      if (c.detail) for (const line of String(c.detail).match(/.{1,96}(\s|$)/g) ?? [c.detail]) console.log(`      ${paint(line.trim(), C.dim)}`);
+      console.log(`  ${paint(m, col)} ${paint(safe(c.title), C.bold)}`);
+      const detail = safe(c.detail ?? '');
+      if (detail) for (const line of detail.match(/.{1,96}(\s|$)/g) ?? [detail]) console.log(`      ${paint(line.trim(), C.dim)}`);
     }
     console.log('');
     console.log(result.ok ? paint('VERIFIED.', C.green) : paint('NOT VERIFIED. See the ✗ lines above.', C.red));

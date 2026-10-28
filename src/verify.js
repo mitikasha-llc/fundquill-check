@@ -186,6 +186,10 @@ export async function verify(doc, opts = {}) {
       'Not signed',
       'Nothing attests who produced it (FundQuill Free reports are unsigned samples).',
     );
+    // Pinning a signer can never be satisfied by a document with no signature,
+    // whatever allowUnsigned says.
+    if (opts.expectFingerprint)
+      add('fail', 'Signer is the device you expected', 'the document is not signed');
   } else {
     signerFp = await fingerprintOf(sig.device_pubkey);
     const fpMatches = signerFp !== null && signerFp === sig.device_fp;
@@ -204,8 +208,11 @@ export async function verify(doc, opts = {}) {
   // 4. Your copy of the model.
   let modelOk = true;
   if (opts.model) {
-    if (!doc.file?.sha256) {
-      add('skip', 'Model file', `a ${LABEL[kind]} does not record a model file`);
+    // A model check you asked for must never pass vacuously: no valid recorded
+    // hash (a library, a trail without a file, a malformed field) is a failure.
+    if (!/^[0-9a-f]{64}$/.test(String(doc.file?.sha256 ?? ''))) {
+      modelOk = false;
+      add('fail', 'Model file', `this ${LABEL[kind]} records no valid model SHA-256 to compare with`);
     } else {
       const sha = await sha256Bytes(opts.model);
       modelOk = sha === doc.file.sha256;
